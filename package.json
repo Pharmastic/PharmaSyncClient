@@ -13,8 +13,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@formwerk/core": "^0.5.1",
     "keycloak-js": "^26.0.7",
     "pinia": "^2.3.0",
+    "valibot": "^1.0.0-beta.11",
     "vite": "^6.0.7",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
