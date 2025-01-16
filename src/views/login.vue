@@ -1,6 +1,6 @@
 <template>
   <main
-    class="h-screen w-full flex flex-col px-8 md:px-12 lg:px-24 items-center justify-center gap-8 md:gap-24"
+    class="h-screen bg-white w-full flex flex-col px-8 md:px-12 lg:px-24 items-center justify-center gap-8 md:gap-24"
   >
     <h1 class="text-3xl text-primary-500 text-center font-bold">Login</h1>
 
@@ -31,17 +31,21 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@formwerk/core'
-import TextField from '../components/UI/TextField.vue'
-import TheButton from '@/components/UI/TheButton.vue'
-import { LoginSchema } from '../validation/authSchemas'
-
-const schema = LoginSchema
-const { values, handleSubmit, isSubmitting } = useForm({ schema })
-values // { email: '', password: '' }
+import { useForm } from '@formwerk/core';
+import TextField from '../components/UI/TextField.vue';
+import TheButton from '@/components/UI/TheButton.vue';
+import { LoginSchema } from '../validation/authSchemas';
+import apiClient from '@/util/apiClient.ts';
+const schema = LoginSchema;
+const { values, handleSubmit, isSubmitting } = useForm({ schema });
+values; // { email: '', password: '' }
 const onSubmit = handleSubmit(async (data) => {
-  await new Promise((resolve) => setTimeout(resolve, 2000))
-
-  alert(JSON.stringify(data.toObject(), null, 2))
-})
+  console.log(data);
+  try {
+    const response = await apiClient.post('/auth/login', data);
+    sessionStorage.setItem('token', response.data.refreshToken);
+  } catch (error) {
+    console.error(error);
+  }
+});
 </script>

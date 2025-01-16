@@ -9,10 +9,22 @@
         @submit.prevent="onSubmit"
         class="flex flex-col gap-2 items-center justify-center w-full md:w-1/3"
       >
-        <TextField name="firstName" label="First Name" type="text" required />
-        <TextField name="lastName" label="Last Name" type="text" required />
-        <TextField name="email" label="Email" type="email" required />
-        <TextField name="password" label="Password" type="password" required />
+        <TextField
+          name="firstName"
+          label="First Name"
+          type="text"
+          autocomplete="firstName"
+          required
+        />
+        <TextField name="lastName" label="Last Name" type="text" autocomplete="lastName" required />
+        <TextField name="email" label="Email" type="email" autocomplete="email" required />
+        <TextField
+          name="password"
+          label="Password"
+          type="password"
+          autocomplete="current-password"
+          required
+        />
 
         <TheButton type="submit">
           {{ isSubmitting ? 'Signing up...' : 'Sign Up' }}
@@ -31,18 +43,31 @@
 </template>
 
 <script setup lang="ts">
-import TextField from '../components/UI/TextField.vue'
-import TheButton from '../components/UI/TheButton.vue'
-import { SignUpSchema } from '../validation/authSchemas'
-import { useForm } from '@formwerk/core'
+import TextField from '../components/UI/TextField.vue';
+import TheButton from '../components/UI/TheButton.vue';
+import { SignUpSchema } from '../validation/authSchemas';
+import { useForm } from '@formwerk/core';
+import apiClient from '../util/apiClient.ts';
 
-const schema = SignUpSchema
-const { values, handleSubmit, isSubmitting } = useForm({ schema })
-values // { email: '', password: '', firstName: '', lastName: '' }
+const roles = [
+  { value: 'ADMIN', label: 'Admin' },
+  { value: 'USER', label: 'User' },
+  { value: 'PHARMACIST', label: 'Pharmacist' },
+  { value: 'Maneger', label: 'Maneger' },
+];
+
+const schema = SignUpSchema;
+const { values, handleSubmit, isSubmitting } = useForm({ schema });
+
 const onSubmit = handleSubmit(async (data) => {
-  console.log(data)
-  await new Promise((resolve) => setTimeout(resolve, 2000))
-
-  alert(JSON.stringify(data.toObject(), null, 2))
-})
+  console.log('meow');
+  console.log(data);
+  try {
+    const response = await apiClient.post('/auth/register', data);
+    console.log(response.data.refreshToken);
+    sessionStorage.setItem('token', response.data.refreshToken);
+  } catch (error) {
+    console.error(error);
+  }
+});
 </script>
