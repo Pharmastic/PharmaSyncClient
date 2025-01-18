@@ -64,8 +64,9 @@ const onSubmit = handleSubmit(async (data) => {
   console.log(data);
   try {
     const response = await apiClient.post('/auth/register', data);
-    console.log(response.data.refreshToken);
-    sessionStorage.setItem('token', response.data.refreshToken);
+    sessionStorage.setItem('accessToken', response.data.accessToken);
+    sessionStorage.setItem('refreshToken', response.data.refreshToken);
+    window.location.href = '/login';
   } catch (error) {
     console.error(error);
   }

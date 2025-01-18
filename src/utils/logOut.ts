@@ -3,10 +3,10 @@ import apiClient from '../util/apiClient';
 const logOut = async () => {
   try {
     await apiClient.post('/auth/logout');
-    sessionStorage.removeItem('token');
+    sessionStorage.clear();
     window.location.href = '/login';
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.log(error);
   }
 };
 export default logOut;

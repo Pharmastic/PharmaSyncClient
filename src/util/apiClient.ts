@@ -4,34 +4,51 @@ const apiClient = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
   headers: {
     'x-api-key': import.meta.env.VITE_APP_API_KEY,
+    'Content-Type': 'application/json',
   },
 });
 
-// Add a request interceptor
 apiClient.interceptors.request.use((config) => {
-  let token = localStorage.getItem('token');
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  const accessToken = sessionStorage.getItem('accessToken');
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;
 });
 
-// Add a response interceptor
 apiClient.interceptors.response.use(
   (response) => {
     const { data } = response;
-
     if (data.error) {
       throw new Error(data.error);
     }
-
     return response;
   },
-  (error) => {
-    if (error.response.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+  async (error) => {
+    const originalRequest = error.config;
+
+    // Handle token expiration
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const refreshToken = sessionStorage.getItem('refreshToken');
+        if (refreshToken) {
+          const response = await apiClient.post('/auth/refresh', {
+            refreshToken: refreshToken,
+          });
+
+          if (response.data.accessToken) {
+            sessionStorage.setItem('accessToken', response.data.accessToken);
+            originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
+            return apiClient(originalRequest);
+          }
+        }
+      } catch (refreshError) {
+        sessionStorage.clear();
+        window.location.href = '/login';
+        return Promise.reject(refreshError);
+      }
     }
 
     return Promise.reject(error);
