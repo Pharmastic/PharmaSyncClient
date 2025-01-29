@@ -10,6 +10,10 @@ const login = () => {
 const signup = () => {
   router.push('/signup');
 };
+
+const addProduct = () => {
+  router.push('/add-product');
+};
 </script>
 
 <template>
@@ -19,6 +23,9 @@ const signup = () => {
       <button @click="logOut" class="bg-blue-500 text-white py-2 px-4 rounded mb-2">LogOut</button>
       <button @click="login" class="bg-green-500 text-white py-2 px-4 rounded mb-2">Login</button>
       <button @click="signup" class="bg-purple-500 text-white py-2 px-4 rounded">Signup</button>
+      <button @click="addProduct" class="bg-red-500 text-white py-2 px-4 rounded">
+        Add Product
+      </button>
     </div>
   </main>
 </template>
