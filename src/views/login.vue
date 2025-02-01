@@ -35,12 +35,12 @@ import { useForm } from '@formwerk/core';
 import TextField from '../components/UI/TextField.vue';
 import TheButton from '@/components/UI/TheButton.vue';
 import { LoginSchema } from '../validation/authSchemas';
-import apiClient from '@/util/apiClient.ts';
+import apiClient from '@/utils/apiClient.ts';
 const schema = LoginSchema;
 const { values, handleSubmit, isSubmitting } = useForm({ schema });
 values; // { email: '', password: '' }
 const onSubmit = handleSubmit(async (data) => {
-  console.log(data);
+  console.log(JSON.stringify(data.toObject()));
   try {
     const response = await apiClient.post('/auth/login', data);
     sessionStorage.setItem('accessToken', response.data.accessToken);

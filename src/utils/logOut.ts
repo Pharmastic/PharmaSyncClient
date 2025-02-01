@@ -1,4 +1,4 @@
-import apiClient from '../util/apiClient';
+import apiClient from './apiClient.ts';
 
 const logOut = async () => {
   try {

@@ -1,13 +1,13 @@
 <template>
   <main
-    class="h-screen w-full flex flex-col px-8 md:px-12 lg:px-24 items-center justify-center gap-8 md:gap-24"
+    class="h-screen w-full flex flex-col px-8 md:px-12 lg:px-24 items-center justify-center gap-8 md:gap-16"
   >
     <h1 class="text-3xl text-primary-500 text-center font-bold">Sign Up to PharmaSync</h1>
     <div class="flex flex-col sm:flex-row w-full gap-8 sm:gap-0 items-center justify-around">
       <img src="../assets/illust/pharama.svg" alt="pharmastic" class="w-11/12 sm:w-1/2" />
       <form
         @submit.prevent="onSubmit"
-        class="flex flex-col gap-2 items-center justify-center w-full md:w-1/3"
+        class="flex flex-col gap-4 items-center justify-center w-full md:w-1/3"
       >
         <TextField
           name="firstName"
@@ -25,7 +25,14 @@
           autocomplete="current-password"
           required
         />
-
+        <div class="w-full">
+          <SelectField name="role" label="Select Role">
+            <OptionItem label="Admin" value="ADMIN" />
+            <OptionItem label="User" value="USER" />
+            <OptionItem label="Pharmacist" value="PHARMACIST" />
+            <OptionItem label="Manager" value="MANAGER" />
+          </SelectField>
+        </div>
         <TheButton type="submit">
           {{ isSubmitting ? 'Signing up...' : 'Sign Up' }}
           <img
@@ -44,31 +51,27 @@
 
 <script setup lang="ts">
 import TextField from '../components/UI/TextField.vue';
+import SelectField from '../components/UI/SelectField.vue';
+import OptionItem from '../components/UI/OptionItem.vue';
 import TheButton from '../components/UI/TheButton.vue';
 import { SignUpSchema } from '../validation/authSchemas';
 import { useForm } from '@formwerk/core';
-import apiClient from '../util/apiClient.ts';
-
-const roles = [
-  { value: 'ADMIN', label: 'Admin' },
-  { value: 'USER', label: 'User' },
-  { value: 'PHARMACIST', label: 'Pharmacist' },
-  { value: 'Maneger', label: 'Maneger' },
-];
+import apiClient from '../utils/apiClient.ts';
 
 const schema = SignUpSchema;
 const { values, handleSubmit, isSubmitting } = useForm({ schema });
+values; // { firstName: '', lastName: '', email: '', password: '' }
 
 const onSubmit = handleSubmit(async (data) => {
-  console.log('meow');
-  console.log(data);
+  console.log(JSON.stringify(data.toObject()));
   try {
     const response = await apiClient.post('/auth/register', data);
     sessionStorage.setItem('accessToken', response.data.accessToken);
     sessionStorage.setItem('refreshToken', response.data.refreshToken);
     window.location.href = '/login';
   } catch (error) {
-    console.error(error);
+    // show error message
+    alert(error);
   }
 });
 </script>
