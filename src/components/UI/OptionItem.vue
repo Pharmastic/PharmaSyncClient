@@ -2,8 +2,10 @@
 import { type OptionProps, useOption } from '@formwerk/core';
 
 const props = defineProps<OptionProps>();
+console.log(props);
 
 const { optionProps } = useOption(props);
+console.log('optionProps:', optionProps.value);
 </script>
 
 <template>
@@ -30,13 +32,13 @@ const { optionProps } = useOption(props);
 
   &[aria-selected='true'],
   &[aria-checked='true'] {
-    background-color: #10b981;
+    background-color: #4caf50;
     color: #fff;
   }
 
   &:focus {
     outline: none;
-    border-color: #10b981;
+    border-color: #4caf50;
   }
 
   &[aria-disabled='true'] {
