@@ -3,6 +3,7 @@ import { useId } from 'vue';
 import { useSelect, type SelectProps } from '@formwerk/core';
 
 const props = defineProps<SelectProps>();
+console.log(props);
 const id = useId();
 const triggerId = `--trigger-${id}`;
 
@@ -15,6 +16,9 @@ const {
   fieldValue,
   listBoxProps,
 } = useSelect(props);
+console.log('Selected value:', fieldValue.value);
+console.log('Error message:', errorMessage.value);
+console.log('triggerProps:', triggerProps.value);
 </script>
 
 <template>
@@ -54,14 +58,14 @@ const {
 .select {
   --color-text: #333;
   --color-hint: #666;
-  --color-focus: #059669;
+  --color-focus: #4caf50;
   --color-error: #f00;
   --color-hover: #eee;
   --color-border: #d4d4d8;
 
   display: flex;
   flex-direction: column;
-  width: max-content;
+  width: 100%;
 
   .select-label {
     color: var(--color-text);
@@ -105,7 +109,7 @@ const {
     opacity: 0;
     border-radius: 6px;
     margin: 0;
-    width: 250px;
+    width: 100%;
     box-shadow:
       0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06);

@@ -3,8 +3,11 @@ import TextField from '../components/UI/TextField.vue';
 import TheButton from '../components/UI/TheButton.vue';
 import { useForm } from '@formwerk/core';
 import { ProductSchema } from '../validation/productSchema';
-import apiClient from '../util/apiClient';
+import apiClient from '../utils/apiClient.ts';
 import NumberField from '@/components/UI/NumberField.vue';
+import SelectField from '@/components/UI/SelectField.vue';
+import OptionItem from '@/components/UI/OptionItem.vue';
+import CheckBox from '@/components/UI/CheckBox.vue';
 const schema = ProductSchema;
 const { values, handleSubmit, isSubmitting } = useForm({ schema }); // { name: '', price: '', description: '', barcode: '', sku: '', quantity: '', reorderPoint: '', expiryDate: '', categoryId: '', supplierId: '', batchNumber: '', dosageForm: '', strength: '', storage: '', prescriptionRequired: '' }
 const onSubmit = handleSubmit(async (data) => {
@@ -29,21 +32,32 @@ const onSubmit = handleSubmit(async (data) => {
       <TextField name="name" label="Name" type="text" required />
       <TextField name="barcode" label="Barcode" type="text" required />
       <TextField name="batchNumber" label="Batch Number" type="text" required />
-      <TextField name="dosageForm" label="Dosage Form" type="text" required />
       <TextField name="manufacturer" label="Manufacturer" type="text" required />
       <TextField name="genericName" label="Generic Name" type="text" required />
       <TextField name="sku" label="SKU" type="text" required />
       <TextField name="description" label="Description" type="text" required />
       <TextField name="categoryId" label="Category Id" type="text" required />
       <TextField name="supplierId" label="Supplier Id" type="text" required />
-      <TextField name="batchNumber" label="Batch Number" type="text" required />
-      <TextField name="dosageForm" label="Dosage Form" type="text" required />
+      <SelectField name="dosageForm" label="Dosage Form" required>
+        <OptionItem label="Tablet" value="TABLET" />
+        <OptionItem label="Capsule" value="CAPSULE" />
+        <OptionItem label="Liquid" value="LIQUID" />
+        <OptionItem label="Injection" value="INJECTION" />
+        <OptionItem label="cream" value="CREAM" />
+        <OptionItem label="ointment" value="OINTMENT" />
+        <OptionItem label="Drops" value="DROPS" />
+        <OptionItem label="Inhaler" value="INHALER" />
+        <OptionItem label="Powder" value="POWDER" />
+        <OptionItem label="Other" value="OTHER" />
+      </SelectField>
       <TextField name="strength" label="Strength" type="text" required />
       <TextField name="storage" label="Storage" type="text" required />
       <NumberField name="costPrice" label="Cost Price" type="number" required />
       <NumberField name="reorderPoint" label="Reorder Point" type="number" required />
       <NumberField name="price" label="Price" type="number" required />
       <NumberField name="quantity" label="Quantity" type="number" required />
+      <CheckBox label="" name="prescriptionRequired" />
+      <input type="date" name="expiryDate" />
       <TheButton type="submit">
         {{ isSubmitting ? 'Adding Product...' : 'Add Product' }}
         <img

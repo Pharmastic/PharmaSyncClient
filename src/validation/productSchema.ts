@@ -33,11 +33,12 @@ export const ProductSchema = v.object({
   costPrice: v.number(),
   quantity: v.number(),
   reorderPoint: v.number(),
-  // expiryDate: v.date(),
+  expiryDate: v.date(),
   categoryId: v.string(),
   supplierId: v.string(),
   batchNumber: v.string(),
   dosageForm: v.string(),
   strength: v.string(),
   storage: v.string(),
+  prescriptionRequired: v.boolean(),
 });
