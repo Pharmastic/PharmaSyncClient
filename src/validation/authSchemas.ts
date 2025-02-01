@@ -23,10 +23,7 @@ const nameSchema = v.pipe(
   v.regex(/^[a-zA-Z\s]*$/, 'Your name must contain only letters and spaces.'),
 );
 
-const roleSchema = v.enum(
-  ['ADMIN', 'USER', 'PHARMACIST', 'PATIENT'] as const,
-  'Please select a valid role.',
-);
+const roleSchema = v.pipe(v.string(), v.nonEmpty('Please enter your role.'));
 
 export const LoginSchema = v.object({
   email: emailSchema,
@@ -38,4 +35,5 @@ export const SignUpSchema = v.object({
   password: passwordSchema,
   firstName: nameSchema,
   lastName: nameSchema,
+  role: roleSchema,
 });

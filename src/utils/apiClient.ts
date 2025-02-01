@@ -29,12 +29,13 @@ apiClient.interceptors.response.use(
 
     // Handle token expiration
     if (error.response.status === 401 && !originalRequest._retry) {
+      // if (!originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
         const refreshToken = sessionStorage.getItem('refreshToken');
         if (refreshToken) {
-          const response = await apiClient.post('/auth/refresh', {
+          const response = await apiClient.post('/auth/refresh-token', {
             refreshToken: refreshToken,
           });
 
