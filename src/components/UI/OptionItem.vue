@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { type OptionProps, useOption } from '@formwerk/core';
 
-const props = defineProps<OptionProps>();
-console.log(props);
+const props = defineProps<OptionProps<any>>();
 
 const { optionProps } = useOption(props);
-console.log('optionProps:', optionProps.value);
 </script>
 
 <template>

@@ -2,8 +2,7 @@
 import { useId } from 'vue';
 import { useSelect, type SelectProps } from '@formwerk/core';
 
-const props = defineProps<SelectProps>();
-console.log(props);
+const props = defineProps<SelectProps<string, string>>();
 const id = useId();
 const triggerId = `--trigger-${id}`;
 
@@ -16,9 +15,6 @@ const {
   fieldValue,
   listBoxProps,
 } = useSelect(props);
-console.log('Selected value:', fieldValue.value);
-console.log('Error message:', errorMessage.value);
-console.log('triggerProps:', triggerProps.value);
 </script>
 
 <template>
