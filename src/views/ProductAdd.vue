@@ -8,31 +8,44 @@ import NumberField from '@/components/UI/NumberField.vue';
 import SelectField from '@/components/UI/SelectField.vue';
 import OptionItem from '@/components/UI/OptionItem.vue';
 import CheckBox from '@/components/UI/CheckBox.vue';
+import getSuppliers from '@/components/Suppliers/GetSuppliers';
+import getCategories from '@/components/categories/GetCategory.ts';
 import { ref } from 'vue';
 
 const schema = ProductSchema;
 const { values, handleSubmit, isSubmitting, setValues } = useForm({
   schema,
-  initialValues: {
-    expiryDate: '', // Initialize with an empty string
-  },
 });
+const categories = ref([]);
+const suppliers = ref([]);
 
 const onSubmit = handleSubmit(async (data) => {
-  // Transform expiryDate to ISO 8601 format
-  const formattedData = {
-    ...data.toObject(),
-    expiryDate: new Date(data.expiryDate).toISOString(),
-  };
-
-  console.log(JSON.stringify(formattedData)); // Check the formatted data
   try {
-    const response = await apiClient.post('/products', formattedData);
+    console.log(JSON.stringify(data.toObject()));
+    console.log(data.toObject().expiryDate);
+    data.toObject().expiryDate = new Date(data.toObject().expiryDate).toISOString();
+    const response = await apiClient.post('/products', data);
     console.log(response);
   } catch (error) {
     console.error(error);
   }
 });
+const fetchCategories = async () => {
+  try {
+    const response = await getCategories();
+    categories.value = response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+const fetchSuppliers = async () => {
+  try {
+    const response = await getSuppliers();
+    suppliers.value = response;
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>
 
 <template>
@@ -52,8 +65,22 @@ const onSubmit = handleSubmit(async (data) => {
       <TextField name="genericName" label="Generic Name" type="text" required />
       <TextField name="sku" label="SKU" type="text" required />
       <TextField name="description" label="Description" type="text" required />
-      <TextField name="categoryId" label="Category Id" type="text" required />
-      <TextField name="supplierId" label="Supplier Id" type="text" required />
+      <SelectField name="categoryId" label="Category Id" @click="fetchCategories" required>
+        <OptionItem
+          v-for="category in categories"
+          :key="category.id"
+          :label="category.name"
+          :value="category.id"
+        />
+      </SelectField>
+      <SelectField name="supplierId" label="Supplier Id" @click="fetchSuppliers" required>
+        <OptionItem
+          v-for="supplier in suppliers"
+          :key="supplier.id"
+          :label="supplier.name"
+          :value="supplier.id"
+        />
+      </SelectField>
       <SelectField name="dosageForm" label="Dosage Form" required>
         <OptionItem label="Tablet" value="TABLET" />
         <OptionItem label="Capsule" value="CAPSULE" />
