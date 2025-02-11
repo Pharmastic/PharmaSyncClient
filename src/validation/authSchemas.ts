@@ -1,5 +1,5 @@
 import * as v from 'valibot';
-const emailSchema = v.pipe(
+export const emailSchema = v.pipe(
   v.string(),
   v.nonEmpty('Please enter your email.'),
   v.email('Please enter a valid email.'),
@@ -15,7 +15,7 @@ const passwordSchema = v.pipe(
   // ),
   v.maxLength(20, 'Your password must have 20 characters or less.'),
 );
-const nameSchema = v.pipe(
+export const nameSchema = v.pipe(
   v.string(),
   v.nonEmpty('Please enter your name.'),
   v.minLength(3, 'Your name must have 3 characters or more.'),
