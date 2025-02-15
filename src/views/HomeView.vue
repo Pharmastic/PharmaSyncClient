@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import logOut from '../utils/logOut';
-import AddCategory from '@/components/categories/AddCategory.vue';
-import AddSuppliers from '@/components/Suppliers/AddSuppliers.vue';
 const router = useRouter();
 
 const login = () => {
@@ -19,6 +17,13 @@ const addProduct = () => {
 const productsPage = () => {
   router.push('/products');
 };
+const categoriesPage = () => {
+  router.push('/categories');
+};
+
+const suppliersPage = () => {
+  router.push('/suppliers');
+};
 </script>
 
 <template>
@@ -31,11 +36,9 @@ const productsPage = () => {
       ><button @click="addProduct" class="bg-red-500 text-white py-2 px-4 rounded">
         Add Product
       </button>
+      <button @click="categoriesPage">Categories</button>
+      <button @click="suppliersPage">Suppliers</button>
       <button @click="productsPage">Products</button>
-      <div class="flex items-center justify-center gap-4 w-full">
-        <AddCategory />
-        <AddSuppliers />
-      </div>
     </div>
   </main>
 </template>
