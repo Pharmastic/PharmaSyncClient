@@ -9,7 +9,7 @@ import {
   deleteSupplier,
 } from '@/components/Suppliers/HandleSuppliers.ts';
 import TextField from '../components/UI/TextField.vue';
-import AddSupplier from '@/components/suppliers/AddSuppliers.vue';
+import AddSupplier from '../components/Suppliers/AddSuppliers.vue';
 const isLoading = ref(true);
 const schema = SuppliersSchema;
 const suppliers = ref([]);
