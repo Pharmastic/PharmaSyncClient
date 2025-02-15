@@ -8,8 +8,10 @@ import NumberField from '@/components/UI/NumberField.vue';
 import SelectField from '@/components/UI/SelectField.vue';
 import OptionItem from '@/components/UI/OptionItem.vue';
 import CheckBox from '@/components/UI/CheckBox.vue';
-import getSuppliers from '@/components/Suppliers/GetSuppliers';
-import getCategories from '@/components/categories/GetCategory.ts';
+import { getSuppliers } from '@/components/Suppliers/HandleSuppliers.ts';
+import { getCategories } from '@/components/categories/HandleCategory.ts';
+import EditIcon from '@/components/icons/EditIcon.vue';
+import RemoveIcon from '@/components/icons/RemoveIcon.vue';
 import { ref } from 'vue';
 
 const schema = ProductSchema;
@@ -79,7 +81,10 @@ const fetchSuppliers = async () => {
           :key="supplier.id"
           :label="supplier.name"
           :value="supplier.id"
-        />
+        >
+          <EditIcon />
+          <RemoveIcon />
+        </OptionItem>
       </SelectField>
       <SelectField name="dosageForm" label="Dosage Form" required>
         <OptionItem label="Tablet" value="TABLET" />
