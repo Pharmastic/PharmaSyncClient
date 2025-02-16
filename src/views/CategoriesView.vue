@@ -9,7 +9,7 @@ import {
   deleteCategory,
 } from '@/components/categories/HandleCategory.ts';
 import TextField from '../components/UI/TextField.vue';
-import AddCategory from '../components/Categories/AddCategory.vue';
+import AddCategory from '../components/categories/AddCategory.vue';
 const isLoading = ref(true);
 const schema = categorySchema;
 const categories = ref([]);
